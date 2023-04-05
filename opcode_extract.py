@@ -22,7 +22,7 @@ for function_ea, real_name in idautils.Names():
             mnem = cmd.split(' ')[0]
             # print(mnem)
             opcode+=mnem+' '
-    if len(opcode) and opcode.rstrip()!='extrn':
+    if len(opcode.rstrip()) and len(opcode.rstrip())>18:
         opcodes.append(opcode.rstrip())
     print('-'*50)     
     

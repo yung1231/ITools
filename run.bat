@@ -20,10 +20,14 @@ echo [+] Start analysis.
 set count=0
 
 for %%f in ("%target_dir%\*") do (
-    %ida_path% -A -S"%script_path% %%~nxf %save_dir%" "%%~ff"
-    del "%%~dpnf.i64"
-    set /a count+=1
-    echo Processed !count! files.
+	if not exist "%save_dir%\%%~nf.json" (
+        %ida_path% -A -S"%script_path% %%~nxf %save_dir%" "%%~ff"
+        del "%%~dpnf.i64"
+        set /a count+=1
+        echo Processed !count! files.
+    ) else (
+        echo [-] File `%%~nxf` already exists, skip processing.
+    )
 )
 
 echo.

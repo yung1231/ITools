@@ -20,13 +20,15 @@ for function_ea, real_name in idautils.Names():
         if idaapi.is_code(idaapi.get_flags(ins)):
             cmd = idc.GetDisasm(ins)
             mnem = cmd.split(' ')[0]
-            # print(mnem)
-            opcode+=mnem+' '
+            if mnem[-1]==';':
+                opcode+=mnem[:-1]+' '
+            else:
+                opcode+=mnem+' '
     if len(opcode.rstrip()) and len(opcode.rstrip())>18:
         opcodes.append(opcode.rstrip())
     print('-'*50)     
     
-with open(f"{idc.ARGV[2]}\{idc.ARGV[1]}_opcodes.json", "a") as f:
+with open(f"{idc.ARGV[2]}\{idc.ARGV[1]}.json", "a") as f:
     json.dump({'opcodes': opcodes}, f)
 
 print('--- End IDAPython ---')
